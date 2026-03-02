@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Works – ADA Studios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;700;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   CONFIG — Add / edit your games in the WORKS_DATA array in JS
+   ============================================================ */
+:root {
+  --ink: #0d0d0d;
+  --cream: #f5f0e8;
+  --yellow: #f9d923;
+  --purple: #5b3fa6;
+  --purple-light: #7b5dc8;
+  --pink: #ff4f8b;
+  --teal: #00c9b1;
+  --orange: #ff6b35;
+  --border: 3px solid var(--ink);
+  --shadow: 5px 5px 0 var(--ink);
+  --shadow-lg: 8px 8px 0 var(--ink);
+  --radius: 18px;
+  --font-display: 'Bangers', cursive;
+  --font-body: 'Nunito', sans-serif;
+  --font-ui: 'Fredoka One', cursive;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--cream);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--cream); }
+::-webkit-scrollbar-thumb { background: var(--purple); border: 2px solid var(--ink); border-radius: 99px; }
+
+.stars-layer {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(1.5px 1.5px at 20% 30%, var(--purple) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 80% 10%, var(--yellow) 0%, transparent 100%),
+    radial-gradient(2px 2px at 50% 70%, var(--pink) 0%, transparent 100%),
+    radial-gradient(1px 1px at 10% 80%, var(--teal) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 60%, var(--orange) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 35% 15%, var(--purple-light) 0%, transparent 100%),
+    radial-gradient(2px 2px at 90% 85%, var(--yellow) 0%, transparent 100%);
+  background-size: 400px 400px;
+  opacity: 0.3;
+}
+
+/* NAV */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--purple);
+  border-bottom: var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2rem; height: 64px;
+  box-shadow: 0 4px 0 var(--ink);
+}
+.nav-logo { font-family: var(--font-display); font-size: 2rem; color: var(--yellow); letter-spacing: 2px; text-shadow: 3px 3px 0 var(--ink); text-decoration: none; }
+.nav-links { display: flex; gap: 1rem; }
+.nav-links a { font-family: var(--font-ui); color: var(--cream); text-decoration: none; font-size: 1.1rem; padding: 0.4rem 1rem; border: 2px solid transparent; border-radius: 8px; transition: all .2s; }
+.nav-links a:hover, .nav-links a.active { background: var(--yellow); color: var(--ink); border-color: var(--ink); transform: translateY(-2px); }
+
+/* PAGE HEADER */
+.page-header {
+  position: relative; z-index: 1;
+  background: var(--teal);
+  border-bottom: var(--border);
+  text-align: center;
+  padding: 4rem 2rem 3rem;
+  overflow: hidden;
+}
+.page-header::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 20px,
+    rgba(0,0,0,0.04) 20px,
+    rgba(0,0,0,0.04) 40px
+  );
+}
+.page-header h1 {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 8vw, 7rem);
+  line-height: 1;
+  letter-spacing: 3px;
+  color: var(--ink);
+  text-shadow: 5px 5px 0 var(--purple);
+  position: relative; z-index: 1;
+}
+.page-header p {
+  font-family: var(--font-ui);
+  font-size: 1.2rem;
+  margin-top: 1rem;
+  background: var(--yellow);
+  display: inline-block;
+  padding: 0.4rem 1.5rem;
+  border: var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  position: relative; z-index: 1;
+}
+
+/* FILTER TABS */
+.filter-bar {
+  position: relative; z-index: 1;
+  display: flex; gap: 0.8rem; flex-wrap: wrap;
+  justify-content: center;
+  padding: 2rem;
+  background: white;
+  border-bottom: var(--border);
+}
+.filter-btn {
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  padding: 0.5rem 1.4rem;
+  border: var(--border);
+  border-radius: 999px;
+  background: var(--cream);
+  cursor: pointer;
+  transition: all .2s;
+  box-shadow: 3px 3px 0 var(--ink);
+}
+.filter-btn:hover { transform: translateY(-2px); box-shadow: 5px 5px 0 var(--ink); }
+.filter-btn.active { background: var(--purple); color: white; }
+
+/* WORKS GRID */
+#works-grid {
+  position: relative; z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 3rem auto;
+  padding: 0 2rem;
+}
+
+/* GAME CARD */
+.game-card {
+  background: white;
+  border: var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  transition: transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .25s;
+  display: flex; flex-direction: column;
+}
+.game-card:hover {
+  transform: translateY(-8px) rotate(-0.5deg);
+  box-shadow: 12px 12px 0 var(--ink);
+}
+.game-card.hidden { display: none; }
+
+.game-thumb {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  border-bottom: var(--border);
+  background: var(--cream);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 5rem;
+  min-height: 180px;
+  position: relative;
+  overflow: hidden;
+}
+.game-thumb img {
+  width: 100%; height: 100%; object-fit: cover;
+  display: block;
+}
+.game-thumb-placeholder {
+  width: 100%; height: 180px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 5rem;
+  border-bottom: var(--border);
+}
+
+.game-status-badge {
+  position: absolute; top: 12px; left: 12px;
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  padding: 3px 12px;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  font-weight: bold;
+  box-shadow: 2px 2px 0 var(--ink);
+  z-index: 2;
+}
+.badge-released { background: var(--teal); }
+.badge-wip { background: var(--yellow); }
+.badge-coming { background: var(--pink); color: white; }
+
+.game-body { padding: 1.3rem; flex: 1; display: flex; flex-direction: column; }
+
+.game-meta { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem; flex-wrap: wrap; }
+.game-genre {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  padding: 2px 10px;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: var(--purple);
+  color: white;
+}
+.game-platform {
+  font-size: 1.2rem;
+}
+
+.game-title {
+  font-family: var(--font-display);
+  font-size: 1.9rem;
+  letter-spacing: 1px;
+  line-height: 1.1;
+  margin-bottom: 0.5rem;
+}
+
+.game-desc {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: #333;
+  flex: 1;
+  margin-bottom: 1rem;
+}
+
+.game-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 1rem; }
+.tag {
+  font-size: 0.75rem;
+  font-family: var(--font-ui);
+  padding: 2px 8px;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: var(--cream);
+}
+
+.game-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: auto; }
+.btn {
+  font-family: var(--font-ui);
+  font-size: 0.95rem;
+  padding: 0.5rem 1.2rem;
+  border: var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  transition: transform .15s, box-shadow .15s;
+  box-shadow: 3px 3px 0 var(--ink);
+}
+.btn:hover { transform: translateY(-2px); box-shadow: 5px 5px 0 var(--ink); }
+.btn-primary { background: var(--yellow); color: var(--ink); }
+.btn-secondary { background: var(--purple); color: white; }
+.btn-ghost { background: white; color: var(--ink); }
+
+/* EMPTY STATE */
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 4rem 2rem;
+  font-family: var(--font-ui);
+  font-size: 1.3rem;
+  color: var(--purple);
+  display: none;
+}
+
+/* ADD BUTTON floating */
+.add-fab {
+  position: fixed;
+  bottom: 2rem; right: 2rem;
+  z-index: 200;
+  background: var(--yellow);
+  border: var(--border);
+  border-radius: 50%;
+  width: 64px; height: 64px;
+  font-size: 2rem;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: var(--shadow-lg);
+  cursor: pointer;
+  transition: transform .2s;
+  text-decoration: none;
+  color: var(--ink);
+}
+.add-fab:hover { transform: scale(1.15) rotate(15deg); }
+
+/* MODAL */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 300;
+  background: rgba(0,0,0,0.6);
+  display: none; align-items: center; justify-content: center;
+  padding: 2rem;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--cream);
+  border: var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  padding: 2rem;
+  max-width: 560px; width: 100%;
+  max-height: 90vh; overflow-y: auto;
+  position: relative;
+  animation: pop-in .3s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes pop-in {
+  from { transform: scale(0.7) rotate(-5deg); opacity: 0; }
+  to { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+.modal h2 { font-family: var(--font-display); font-size: 2rem; margin-bottom: 1.2rem; letter-spacing: 1px; }
+.modal-close {
+  position: absolute; top: 1rem; right: 1rem;
+  background: var(--yellow); border: var(--border); border-radius: 50%;
+  width: 36px; height: 36px; font-size: 1.2rem;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: transform .2s;
+}
+.modal-close:hover { transform: rotate(90deg); }
+
+.form-group { margin-bottom: 1rem; }
+.form-group label { font-family: var(--font-ui); font-size: 1rem; display: block; margin-bottom: 0.3rem; }
+.form-group input, .form-group textarea, .form-group select {
+  width: 100%;
+  border: var(--border);
+  border-radius: 10px;
+  padding: 0.7rem 1rem;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  background: white;
+  box-shadow: 3px 3px 0 var(--ink);
+  outline: none;
+  transition: box-shadow .2s;
+}
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+  box-shadow: 5px 5px 0 var(--purple);
+}
+.form-group textarea { resize: vertical; min-height: 80px; }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+@media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
+
+/* FOOTER */
+footer {
+  position: relative; z-index: 1;
+  background: var(--ink);
+  color: var(--cream);
+  text-align: center;
+  padding: 2rem;
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  margin-top: 4rem;
+  border-top: var(--border);
+}
+footer span { color: var(--yellow); }
+
+/* RESPONSIVE */
+@media (max-width: 500px) {
+  .nav-links a { font-size: 0.9rem; padding: 0.3rem 0.6rem; }
+  #works-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="stars-layer"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="index.html">ADA✦</a>
+  <div class="nav-links">
+    <a href="index.html">Studio</a>
+    <a href="works.html" class="active">Our Works</a>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <h1>🎮 OUR WORKS</h1>
+  <p>Games, apps & experiments from our home galaxy</p>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <button class="filter-btn active" data-filter="all">✦ All</button>
+  <button class="filter-btn" data-filter="game">🎮 Games</button>
+  <button class="filter-btn" data-filter="app">📱 Apps</button>
+  <button class="filter-btn" data-filter="experiment">🧪 Experiments</button>
+</div>
+
+<!-- WORKS GRID -->
+<div id="works-grid">
+  <div class="empty-state" id="empty-state">🛸 No works here yet... but the aliens are building! Stay tuned.</div>
+</div>
+
+<!-- FAB -->
+<button class="add-fab" id="open-modal" title="Add a new work">＋</button>
+
+<!-- ADD MODAL -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <div class="modal-close" id="close-modal">✕</div>
+    <h2>➕ Add New Work</h2>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Title *</label>
+        <input type="text" id="f-title" placeholder="Game / App name" required>
+      </div>
+      <div class="form-group">
+        <label>Type *</label>
+        <select id="f-type">
+          <option value="game">🎮 Game</option>
+          <option value="app">📱 App</option>
+          <option value="experiment">🧪 Experiment</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Description *</label>
+      <textarea id="f-desc" placeholder="What's this about?"></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Genre / Category</label>
+        <input type="text" id="f-genre" placeholder="e.g. Platformer, Puzzle">
+      </div>
+      <div class="form-group">
+        <label>Status</label>
+        <select id="f-status">
+          <option value="wip">🔨 In Progress</option>
+          <option value="released">✅ Released</option>
+          <option value="coming">🔮 Coming Soon</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Platforms (comma separated)</label>
+      <input type="text" id="f-platforms" placeholder="e.g. Android, PC, Browser">
+    </div>
+    <div class="form-group">
+      <label>Tags (comma separated)</label>
+      <input type="text" id="f-tags" placeholder="e.g. family-friendly, 2D, retro">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Play / Download Link</label>
+        <input type="url" id="f-link" placeholder="https://...">
+      </div>
+      <div class="form-group">
+        <label>Trailer / Video Link</label>
+        <input type="url" id="f-video" placeholder="https://youtube.com/...">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Thumbnail URL (or leave blank for emoji)</label>
+      <input type="url" id="f-thumb" placeholder="https://... or leave blank">
+    </div>
+    <div class="form-group">
+      <label>Thumbnail Emoji (if no image)</label>
+      <input type="text" id="f-emoji" placeholder="🎮" maxlength="4" value="🎮">
+    </div>
+    <div class="form-group">
+      <label>Accent Color</label>
+      <select id="f-color">
+        <option value="var(--purple-light)">🟣 Purple</option>
+        <option value="var(--pink)">🩷 Pink</option>
+        <option value="var(--teal)">🩵 Teal</option>
+        <option value="var(--orange)">🟠 Orange</option>
+        <option value="var(--yellow)">🟡 Yellow</option>
+      </select>
+    </div>
+    <button class="btn btn-primary" id="save-work" style="width:100%;justify-content:center;padding:0.8rem;font-size:1.1rem;">🚀 Add to Portfolio</button>
+  </div>
+</div>
+
+<footer>
+  <p>© 2024 <span>ADA Studios</span> — Alien Dimension Arcade &nbsp;|&nbsp; Play. Explore. Conquer.</p>
+  <p style="margin-top:0.5rem;font-size:0.85rem;opacity:0.6">Made with ☕ + 💖 + mild chaos by the family 👨‍👩‍👧‍👦</p>
+</footer>
+
+<script>
+// ============================================================
+// CONFIG — Pre-populate your works here!
+// ============================================================
+const WORKS_DATA = [
+  // Example entry (delete or edit):
+  {
+    id: 1,
+    title: "Alien Dimension Arcade",
+    type: "game",
+    desc: "Our flagship project! A retro-style arcade game set in a galaxy full of quirky alien characters, tricky puzzles, and non-stop action. Inspired by our own little alien mascot and family game nights.",
+    genre: "Arcade / Action",
+    status: "wip",
+    platforms: ["Android", "PC"],
+    tags: ["family-friendly", "retro", "2D", "aliens"],
+    link: "",
+    video: "",
+    thumb: "",
+    emoji: "👾",
+    color: "var(--purple-light)"
+  }
+  // Add more objects here following the same format
+];
+
+const PLATFORM_ICONS = { Android: "🤖", PC: "💻", iOS: "🍎", Browser: "🌐", Mac: "🍏", Linux: "🐧" };
+const STATUS_LABELS = { released: "✅ Released", wip: "🔨 In Progress", coming: "🔮 Coming Soon" };
+const STATUS_CLASSES = { released: "badge-released", wip: "badge-wip", coming: "badge-coming" };
+
+let works = [...WORKS_DATA];
+let currentFilter = 'all';
+
+function renderWorks() {
+  const grid = document.getElementById('works-grid');
+  const empty = document.getElementById('empty-state');
+  
+  // Remove existing cards (keep empty state)
+  grid.querySelectorAll('.game-card').forEach(c => c.remove());
+
+  const filtered = currentFilter === 'all' ? works : works.filter(w => w.type === currentFilter);
+  
+  if (filtered.length === 0) {
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  filtered.forEach((work, i) => {
+    const card = document.createElement('div');
+    card.className = 'game-card';
+    card.style.animationDelay = `${i * 0.08}s`;
+
+    const platformIcons = (work.platforms || []).map(p => PLATFORM_ICONS[p] || '🕹️').join(' ');
+    const tags = (work.tags || []).map(t => `<span class="tag">${t}</span>`).join('');
+
+    const thumbHTML = work.thumb
+      ? `<div class="game-thumb" style="position:relative;background:${work.color || 'var(--cream)'}">
+           <img src="${work.thumb}" alt="${work.title}" onerror="this.parentElement.innerHTML='<div style=\\'width:100%;height:180px;display:flex;align-items:center;justify-content:center;font-size:5rem\\'>${work.emoji || '🎮'}</div>'">
+           <span class="game-status-badge ${STATUS_CLASSES[work.status]}">${STATUS_LABELS[work.status]}</span>
+         </div>`
+      : `<div class="game-thumb-placeholder" style="background:${work.color || 'var(--cream)'};position:relative;border-bottom:var(--border)">
+           <span style="font-size:5rem">${work.emoji || '🎮'}</span>
+           <span class="game-status-badge ${STATUS_CLASSES[work.status]}">${STATUS_LABELS[work.status]}</span>
+         </div>`;
+
+    const actionBtns = [
+      work.link ? `<a href="${work.link}" target="_blank" rel="noopener" class="btn btn-primary">🎮 Play Now</a>` : '',
+      work.video ? `<a href="${work.video}" target="_blank" rel="noopener" class="btn btn-secondary">▶ Trailer</a>` : '',
+      !work.link && !work.video ? `<span class="btn btn-ghost" style="cursor:default;opacity:0.7">🔮 Coming Soon</span>` : ''
+    ].filter(Boolean).join('');
+
+    card.innerHTML = `
+      ${thumbHTML}
+      <div class="game-body">
+        <div class="game-meta">
+          <span class="game-genre">${work.genre || work.type}</span>
+          <span class="game-platform">${platformIcons}</span>
+        </div>
+        <div class="game-title">${work.title}</div>
+        <div class="game-desc">${work.desc}</div>
+        ${tags ? `<div class="game-tags">${tags}</div>` : ''}
+        <div class="game-actions">${actionBtns}</div>
+      </div>
+    `;
+
+    // Scroll reveal
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(30px)';
+    card.style.transition = `opacity 0.5s ease ${i * 0.1}s, transform 0.5s cubic-bezier(.34,1.56,.64,1) ${i * 0.1}s`;
+    
+    grid.appendChild(card);
+
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      card.style.opacity = '1';
+      card.style.transform = 'translateY(0)';
+    }));
+  });
+}
+
+// Filter buttons
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    renderWorks();
+  });
+});
+
+// Modal
+const overlay = document.getElementById('modal-overlay');
+document.getElementById('open-modal').addEventListener('click', () => overlay.classList.add('open'));
+document.getElementById('close-modal').addEventListener('click', () => overlay.classList.remove('open'));
+overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('open'); });
+
+// Save work
+document.getElementById('save-work').addEventListener('click', () => {
+  const title = document.getElementById('f-title').value.trim();
+  const desc = document.getElementById('f-desc').value.trim();
+  if (!title || !desc) { alert('Please fill in at least a title and description!'); return; }
+
+  const platforms = document.getElementById('f-platforms').value.split(',').map(s => s.trim()).filter(Boolean);
+  const tags = document.getElementById('f-tags').value.split(',').map(s => s.trim()).filter(Boolean);
+
+  const newWork = {
+    id: Date.now(),
+    title,
+    type: document.getElementById('f-type').value,
+    desc,
+    genre: document.getElementById('f-genre').value.trim(),
+    status: document.getElementById('f-status').value,
+    platforms,
+    tags,
+    link: document.getElementById('f-link').value.trim(),
+    video: document.getElementById('f-video').value.trim(),
+    thumb: document.getElementById('f-thumb').value.trim(),
+    emoji: document.getElementById('f-emoji').value.trim() || '🎮',
+    color: document.getElementById('f-color').value
+  };
+
+  works.unshift(newWork);
+  overlay.classList.remove('open');
+  renderWorks();
+  
+  // Reset form
+  ['f-title','f-desc','f-genre','f-platforms','f-tags','f-link','f-video','f-thumb'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('f-emoji').value = '🎮';
+});
+
+// Parallax stars
+const starsLayer = document.querySelector('.stars-layer');
+document.addEventListener('mousemove', (e) => {
+  const x = (e.clientX / window.innerWidth - 0.5) * 20;
+  const y = (e.clientY / window.innerHeight - 0.5) * 20;
+  starsLayer.style.transform = `translate(${x}px, ${y}px)`;
+});
+
+// Init
+renderWorks();
+</script>
+</body>
+</html>
